@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#07070c">
-<meta name="description" content="Paste a TikTok video link to preview available information and download the video.">
-<title>TikTok Downloader — Download TikTok Videos in a Few Clicks</title>
+<meta name="description" content="Paste a TikTok link to preview videos and photo posts and download the available media.">
+<title>TikTok Downloader — Videos, Photos &amp; Slideshows</title>
 <style>
 /* ============ Design System ============ */
 :root{
@@ -51,9 +51,9 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
 .btn-primary{background:var(--grad-btn);border-color:transparent;box-shadow:0 8px 24px rgba(254,44,85,.28)}
 .btn-primary:hover{background:var(--grad-btn);filter:brightness(1.08);box-shadow:0 10px 30px rgba(254,44,85,.38)}
-.btn-sm{min-height:38px;padding:0 var(--sp-3);font-size:.85rem;border-radius:var(--r-sm)}
+.btn-sm{min-height:40px;padding:0 var(--sp-3);font-size:.85rem;border-radius:var(--r-sm)}
 .btn-ghost{background:transparent}
-.spinner{width:1.1em;height:1.1em;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin .7s linear infinite}
+.spinner{width:1.1em;height:1.1em;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spin .7s linear infinite;flex:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ============ Header ============ */
@@ -79,7 +79,10 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .hero{padding:var(--sp-7) 0 var(--sp-5);text-align:center}
 .eyebrow{display:inline-flex;align-items:center;gap:var(--sp-2);padding:6px 14px;border-radius:var(--r-pill);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:.8rem;font-weight:600;margin-bottom:var(--sp-4)}
 .hero h1{font-size:clamp(2rem,7.5vw,3.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:var(--sp-3)}
-.hero .lead{color:var(--muted);max-width:560px;margin:0 auto var(--sp-5);font-size:1.02rem}
+.hero .lead{color:var(--muted);max-width:600px;margin:0 auto var(--sp-4);font-size:1.02rem}
+.type-chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);justify-content:center;margin-bottom:var(--sp-5)}
+.type-chips span{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--r-pill);border:1px solid var(--border);background:var(--surface);font-size:.8rem;font-weight:600;color:var(--muted)}
+.type-chips .icon{color:var(--cyan)}
 .input-card{max-width:760px;margin-inline:auto;padding:var(--sp-4);text-align:left;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border-color:var(--border-strong);box-shadow:var(--shadow)}
 .field{display:flex;align-items:center;gap:var(--sp-2);background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:var(--r-md);padding:0 var(--sp-2) 0 var(--sp-4);min-height:56px;transition:border-color .15s,box-shadow .15s}
 .field:focus-within{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(37,244,238,.15)}
@@ -108,12 +111,19 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .error-card{display:flex;gap:var(--sp-3);align-items:flex-start;max-width:760px;margin-inline:auto;border-color:rgba(255,107,129,.4);background:rgba(255,107,129,.08)}
 .error-card .icon{color:var(--err);width:1.5rem;height:1.5rem;margin-top:2px}
 .error-card h3{margin-bottom:var(--sp-1)}
-.error-card p{margin:0;color:#ffd0d8;overflow-wrap:anywhere}
+.error-card p{margin:0 0 var(--sp-2);color:#ffd0d8;overflow-wrap:anywhere}
+.error-card p:last-child{margin:0}
 .skeleton{position:relative;overflow:hidden;background:rgba(255,255,255,.06);border-radius:var(--r-sm)}
 .skeleton::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);animation:shimmer 1.3s infinite}
 @keyframes shimmer{to{transform:translateX(100%)}}
 .sk-line{height:14px;margin-bottom:10px}
 .sk-media{aspect-ratio:9/12;border-radius:var(--r-md)}
+
+.result-head{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
+.type-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:var(--r-pill);font-size:.82rem;font-weight:700;border:1px solid rgba(37,244,238,.4);background:rgba(37,244,238,.1);color:var(--cyan)}
+.type-pill.photo{border-color:rgba(254,44,85,.45);background:rgba(254,44,85,.1);color:#ff8aa0}
+.type-pill.mixed{border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.12);color:#c4b0ff}
+.type-pill.story{border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.1);color:var(--warn)}
 
 .creator{display:flex;flex-direction:column;gap:var(--sp-3)}
 .creator-top{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap}
@@ -125,6 +135,7 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .creator-actions{display:flex;gap:var(--sp-2);flex-wrap:wrap}
 .note{display:flex;gap:var(--sp-2);align-items:flex-start;color:var(--muted);font-size:.82rem;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--sp-2) var(--sp-3)}
 .note .icon{margin-top:3px;color:var(--purple)}
+.note.warn .icon{color:var(--warn)}
 .sound{display:flex;align-items:center;gap:var(--sp-2);color:var(--muted);font-size:.88rem;overflow-wrap:anywhere}
 .sound .icon{color:var(--pink)}
 
@@ -150,6 +161,22 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .stat .label{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .stat .label .icon{color:var(--cyan)}
 .stat .value{font-size:1.45rem;font-weight:800;letter-spacing:-.02em;margin-top:2px;overflow-wrap:anywhere}
+
+/* ============ Photo gallery ============ */
+.gallery-card{border-color:rgba(254,44,85,.3)}
+.gallery-head{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-4)}
+.gallery-head h3{margin:0;font-size:1.25rem}
+.gallery-tools{display:flex;gap:var(--sp-2);flex-wrap:wrap}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-3)}
+.gallery.single{grid-template-columns:minmax(0,440px);justify-content:center}
+.photo{display:flex;flex-direction:column;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;min-width:0;transition:border-color .15s}
+.photo:hover{border-color:var(--border-strong)}
+.photo-frame{position:relative;aspect-ratio:3/4;background:#000}
+.photo-frame img{width:100%;height:100%;object-fit:contain}
+.photo-idx{position:absolute;top:8px;left:8px;padding:2px 10px;border-radius:var(--r-pill);background:rgba(0,0,0,.65);border:1px solid var(--border-strong);font-size:.75rem;font-weight:700}
+.photo-actions{display:grid;grid-template-columns:1fr auto;gap:6px;padding:8px}
+.photo-actions .btn{min-height:42px;padding:0 var(--sp-3);font-size:.82rem}
+.photo-actions .btn-open{width:42px;padding:0}
 
 /* ============ Download Panel ============ */
 .dl-panel{border-color:rgba(254,44,85,.3);background:linear-gradient(180deg,rgba(254,44,85,.07),rgba(139,92,246,.04))}
@@ -180,9 +207,8 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .dl-bar{height:100%;width:0;background:var(--grad);border-radius:inherit;transition:width .2s}
 .dl-bar.indeterminate{width:35%;animation:slide 1.1s ease-in-out infinite}
 @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
-.dl-text{display:block;margin-top:var(--sp-2);font-size:.82rem;color:var(--muted)}
+.dl-text{display:block;margin-top:var(--sp-2);font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}
 .hint{font-size:.8rem;color:var(--muted);margin:var(--sp-3) 0 0}
-/* HD without watermark button (new) */
 .btn-hd{min-height:54px;font-size:1.02rem;width:100%;text-align:center;border-color:rgba(37,244,238,.5);background:rgba(37,244,238,.1);color:var(--cyan)}
 .btn-hd:hover{background:rgba(37,244,238,.18);border-color:var(--cyan)}
 .btn-hd .spinner{border-color:rgba(37,244,238,.35);border-top-color:var(--cyan)}
@@ -191,10 +217,10 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
 .hd-msg{margin:0;font-size:.82rem;color:var(--warn);overflow-wrap:anywhere}
 .hd-msg:empty{display:none}
 
-/* ============ Trending Hashtags (new, optional) ============ */
+/* ============ Trending Hashtags (optional) ============ */
 .trend-controls{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;justify-content:space-between;margin-bottom:var(--sp-4)}
 .trend-controls .left{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;min-width:0}
-.trend-controls select{min-height:38px;border-radius:var(--r-sm);border:1px solid var(--border);background:rgba(0,0,0,.4);color:var(--text);font:600 .85rem var(--font);padding:0 var(--sp-3);max-width:100%}
+.trend-controls select{min-height:40px;border-radius:var(--r-sm);border:1px solid var(--border);background:rgba(0,0,0,.4);color:var(--text);font:600 .85rem var(--font);padding:0 var(--sp-3);max-width:100%}
 .trend-meta{color:var(--muted);font-size:.82rem;margin:0 0 var(--sp-3);overflow-wrap:anywhere}
 .trend-grid{display:grid;gap:var(--sp-2);grid-template-columns:1fr}
 .trend-item{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);padding:var(--sp-2) var(--sp-3);border:1px solid var(--border);border-radius:var(--r-md);background:rgba(0,0,0,.25);min-width:0}
@@ -259,20 +285,22 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
   .brand-tag{display:block}
   .toasts{align-items:flex-end;left:auto;right:var(--sp-4)}
   .trend-grid{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (min-width:860px){
   .menu-btn,.mobile-nav{display:none!important}
   .nav{display:flex;gap:var(--sp-1)}
   .video-grid{grid-template-columns:300px 1fr;align-items:start}
   .dl-grid{grid-template-columns:1fr 1.25fr;align-items:start}
+  .dl-grid.one-col{grid-template-columns:1fr}
   .dl-summary{flex-direction:column;align-items:flex-start}
   .dl-thumb{width:140px;height:186px}
-  .stats.wide{grid-template-columns:repeat(3,1fr)}
   .footer-grid{grid-template-columns:2fr 1fr 1fr}
   .legal{grid-template-columns:1fr 1fr}
   .card{padding:var(--sp-5)}
   .input-card{padding:var(--sp-5)}
   .trend-grid{grid-template-columns:repeat(3,1fr)}
+  .gallery{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media (min-width:1200px){.hero{padding-top:var(--sp-8)}}
 @media (max-width:380px){.stat .value{font-size:1.25rem}.btn{padding:0 var(--sp-4)}}
@@ -290,6 +318,9 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
     <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
     <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
     <symbol id="i-film" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M7 3v18M17 3v18M2 12h20M2 7.5h5M2 16.5h5M17 7.5h5M17 16.5h5"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+    <symbol id="i-images" viewBox="0 0 24 24"><rect x="7" y="7" width="14" height="14" rx="2"/><path d="M3 15V5a2 2 0 0 1 2-2h10"/><circle cx="12" cy="12" r="1.2"/><path d="m21 17-4-4-7 8"/></symbol>
+    <symbol id="i-archive" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
     <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
@@ -320,7 +351,7 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
       <span class="logo"><svg class="icon"><use href="#i-download"/></svg></span>
       <span class="brand-text">
         <span class="brand-name">TikTok Downloader</span>
-        <span class="brand-tag">Download TikTok Videos in a Few Clicks.</span>
+        <span class="brand-tag">Videos · Photos · Slideshows</span>
       </span>
     </a>
     <nav class="nav" aria-label="Primary">
@@ -346,11 +377,17 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
   <section class="hero" aria-labelledby="heroTitle">
     <div class="container">
       <span class="eyebrow"><svg class="icon"><use href="#i-shield"/></svg> Independent tool · No sign-up</span>
-      <h1 id="heroTitle"><span class="grad-text">Download</span> TikTok Videos</h1>
-      <p class="lead">Paste a TikTok video link to preview available information and download the video.</p>
+      <h1 id="heroTitle"><span class="grad-text">Download</span> TikTok Media</h1>
+      <p class="lead">Paste a TikTok link. The page detects whether it contains a video, a photo post, or a photo slideshow and shows only the downloads that actually exist.</p>
+      <div class="type-chips" aria-hidden="true">
+        <span><svg class="icon"><use href="#i-film"/></svg> Videos</span>
+        <span><svg class="icon"><use href="#i-images"/></svg> Photo posts</span>
+        <span><svg class="icon"><use href="#i-archive"/></svg> ZIP of photos</span>
+        <span><svg class="icon"><use href="#i-music"/></svg> Audio</span>
+      </div>
 
       <form id="form" class="card input-card" novalidate>
-        <label for="url" class="sr-only">TikTok video link</label>
+        <label for="url" class="sr-only">TikTok link</label>
         <div class="field" id="field">
           <svg class="icon" aria-hidden="true"><use href="#i-link"/></svg>
           <input id="url" name="url" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://www.tiktok.com/@user/video/..." aria-describedby="urlError">
@@ -365,7 +402,7 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
           </button>
           <button class="btn btn-primary" id="analyzeBtn" type="submit">
             <svg class="icon" id="analyzeIcon"><use href="#i-search"/></svg>
-            <span id="analyzeLabel">Analyze Video</span>
+            <span id="analyzeLabel">Analyze Link</span>
           </button>
         </div>
         <div class="history" id="history" hidden>
@@ -386,7 +423,7 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
         <div class="empty-state" id="emptyState">
           <svg class="icon"><use href="#i-film"/></svg>
           <p><strong>Waiting for a link</strong></p>
-          <p style="margin:0">Your video details and download options will appear here after you analyze a link.</p>
+          <p style="margin:0">Details and download options will appear here after you analyze a link.</p>
         </div>
       </div>
     </div>
@@ -425,17 +462,17 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
         <article class="card step">
           <div class="step-num">1</div>
           <h3>Copy Link</h3>
-          <p>Copy the URL of a TikTok video that you are authorized to access.</p>
+          <p>Copy the URL of a TikTok video, photo post, or slideshow that you are authorized to access.</p>
         </article>
         <article class="card step">
           <div class="step-num">2</div>
           <h3>Paste and Analyze</h3>
-          <p>Paste the URL into the downloader and analyze the available video information.</p>
+          <p>Paste the URL and analyze it. The page detects the real media type from the service response.</p>
         </article>
         <article class="card step">
           <div class="step-num">3</div>
           <h3>Download</h3>
-          <p>Choose an available download option and initiate the download.</p>
+          <p>Download the video, each photo, all photos, or a ZIP, depending on what is available.</p>
         </article>
       </div>
     </div>
@@ -450,32 +487,36 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
       </div>
       <div class="faq">
         <details>
-          <summary>How do I download a TikTok video? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>Copy the video link from TikTok, paste it into the box above, and press Analyze Video. When the details appear, choose one of the available options and press the download button.</p></div>
+          <summary>How do I download a TikTok video or photo post? <svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="answer"><p>Copy the link from TikTok, paste it into the box above, and press Analyze Link. For a video, choose an option and press the download button. For a photo post, every photo is shown in a gallery with its own download button, plus Download All and ZIP buttons when there is more than one photo.</p></div>
         </details>
         <details>
           <summary>What does "HD Without Watermark" mean? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>It is the high-quality file that the lookup service returns for the video. It is offered only when the service actually provides it. If it is missing, you will see a message and nothing else is downloaded automatically. You can still choose another available option yourself.</p></div>
+          <div class="answer"><p>It is the high-quality file that the lookup service returns for the video. It is offered only when the service actually provides it. If it is missing, you will see a message and nothing else is downloaded automatically. The service does not report the pixel resolution, so none is shown.</p></div>
         </details>
         <details>
-          <summary>Why is my video link not working? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>The link must be a full TikTok video link. Private videos, deleted videos, region-restricted videos, or temporary problems with the third-party service can all cause the lookup to fail. Check the link and try again in a moment.</p></div>
+          <summary>What if a photo post also has a video? <svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="answer"><p>Some photo slideshows come with a playable video version. When the service returns one, it is offered separately from the photos. When it does not, only the original photos are offered. The page never turns photos into a video.</p></div>
+        </details>
+        <details>
+          <summary>Why is my link not working? <svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="answer"><p>The link must be a full TikTok link. Private, deleted, expired, age- or region-restricted posts (including Stories that have expired) and temporary problems with the third-party service can all cause the lookup to fail. The service also limits how fast requests can be sent, so wait a couple of seconds and try again.</p></div>
         </details>
         <details>
           <summary>Why are some download options unavailable? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>Only the options returned by the underlying service for that specific video are shown. If a version, such as audio or an alternative video file, is not returned, it cannot be offered.</p></div>
+          <div class="answer"><p>Only the files returned by the underlying service for that specific post are shown. If a version, such as audio, HD, or a slideshow video, is not returned, it cannot be offered.</p></div>
         </details>
         <details>
           <summary>Why are some creator statistics missing? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>This site shows only the data the video lookup service returns. Creator details such as follower counts, following counts, total likes, and biography are not part of that response, so they are not displayed rather than guessed.</p></div>
+          <div class="answer"><p>This site shows only the data the lookup service returns. Follower counts, following counts, total likes, and biography are not part of that response, so they are not displayed rather than guessed.</p></div>
         </details>
         <details>
-          <summary>Why did my download fail? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>The file is hosted by a third party and its link can expire or be blocked by your network or browser. Analyze the link again to get a fresh download link, or use "Open direct link" and save the file from the new tab.</p></div>
+          <summary>Why did my download fail or open in a new tab? <svg class="icon"><use href="#i-chevron"/></svg></summary>
+          <div class="answer"><p>Files are hosted by TikTok's content servers. If a server does not allow the page to read the file directly, the page hands the link to your browser instead, which may open it in a new tab. In that case save the file from the new tab. ZIP downloads need direct access to each photo, so they can fail for the same reason. Links also expire, so analyze the link again to get a fresh one.</p></div>
         </details>
         <details>
           <summary>Does the downloader work on mobile devices? <svg class="icon"><use href="#i-chevron"/></svg></summary>
-          <div class="answer"><p>Yes. The site is built mobile-first and works in modern mobile browsers. Some mobile browsers open the file in a new tab instead of saving it directly. If that happens, use the browser's share or download option on the video.</p></div>
+          <div class="answer"><p>Yes. The site is built mobile-first and works in modern mobile browsers. Some mobile browsers open files in a new tab instead of saving them directly. If that happens, use the browser's share or download option.</p></div>
         </details>
       </div>
     </div>
@@ -491,12 +532,12 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
       <div class="legal">
         <article class="card" id="privacy">
           <h3><svg class="icon"><use href="#i-shield"/></svg> Privacy Policy</h3>
-          <p>This page has no accounts and no backend of its own. When you analyze a link, the link is sent to the third-party service tikwm.com to retrieve the video information.</p>
+          <p>This page has no accounts and no backend of its own. When you analyze a link, the link is sent to the third-party service tikwm.com to retrieve the media information.</p>
           <p>If you use the optional recent-links list, the links are saved only in your own browser's local storage. You can remove them at any time with "Clear history".</p>
         </article>
         <article class="card" id="terms">
           <h3><svg class="icon"><use href="#i-info"/></svg> Terms of Use</h3>
-          <p>Use this tool only for videos you own or have permission to save. Respect creators' rights, TikTok's rules, and the laws that apply to you.</p>
+          <p>Use this tool only for content you own or have permission to save. Respect creators' rights, TikTok's rules, and the laws that apply to you.</p>
           <p>The service is provided "as is" without guarantees of availability, because it depends on a third-party service.</p>
         </article>
       </div>
@@ -513,7 +554,7 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
           <span class="logo"><svg class="icon"><use href="#i-download"/></svg></span>
           <span class="brand-name">TikTok Downloader</span>
         </a>
-        <p style="margin-top:12px">A simple tool to preview TikTok video information and download videos you are allowed to save.</p>
+        <p style="margin-top:12px">A simple tool to preview TikTok videos and photo posts and download media you are allowed to save.</p>
         <div class="owner" id="owner"><span>Built by Zaber Hossain</span></div>
       </div>
       <div class="footer-links">
@@ -543,25 +584,31 @@ section{scroll-margin-top:calc(var(--header-h) + 12px)}
    CONFIG — original API endpoint preserved exactly
    ========================================================= */
 const API_BASE = "https://www.tikwm.com/api/?url=";
+/* "hd=1" is a documented tikwm query parameter. Without it the response omits
+   "hdplay" and "hd_size", which is why HD never appeared before. */
+const API_EXTRA = "&hd=1";
 const API_ORIGIN = "https://www.tikwm.com";
 const OWNER_AVATAR = ""; // optional: paste your own image URL / data URI to show it in the footer
 const HISTORY_KEY = "ttdl_recent_links_v1";
 const HISTORY_MAX = 5;
+
+/* Optional download proxy (empty = not used, downloads go straight to the media host).
+   If set, it must be a URL ending with a query string that accepts:
+     <DOWNLOAD_PROXY_URL><encoded media url>&filename=<encoded name>
+   and stream the file back with CORS headers and Content-Disposition: attachment.
+   Never put secrets in this file. Restrict your proxy to TikTok CDN hosts. */
+const DOWNLOAD_PROXY_URL = ""; // e.g. "https://your-worker.example.workers.dev/?u="
 
 /* ---- Trending hashtags (optional) ----
    Leave TRENDING_SOURCE_URL empty unless you have a real data source.
    The source must be a public HTTPS JSON URL that allows cross-origin (CORS) requests.
    Expected JSON format:
    {
-     "updated_at": "2026-10-23T10:00:00Z",          // ISO date of the last real update
-     "period": "Last 7 days",                       // optional text
-     "regions": {
-       "US": ["#example1", "#example2"],            // strings or {"tag":"#example"}
-       "BD": ["#example3"]
-     }
+     "updated_at": "2026-10-23T10:00:00Z",
+     "period": "Last 7 days",
+     "regions": { "US": ["#example1"], "BD": ["#example3"] }
    }
-   (A flat "items": [...] array is also accepted for a single, region-less list.)
-   No API key or secret should ever be placed in this file. */
+   (A flat "items": [...] array is also accepted for a single, region-less list.) */
 const TRENDING_SOURCE_URL = "";
 const CREATIVE_CENTER_URL = "https://ads.tiktok.com/business/creativecenter/inspiration/popular/hashtag/pc/en";
 
@@ -570,6 +617,7 @@ const CREATIVE_CENTER_URL = "https://ads.tiktok.com/business/creativecenter/insp
    ========================================================= */
 const $ = (s, r = document) => r.querySelector(s);
 const SVG_NS = "http://www.w3.org/2000/svg";
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function el(tag, props = {}, ...kids) {
   const n = document.createElement(tag);
@@ -662,11 +710,25 @@ function toast(message, type = "info", ms = 4200) {
 }
 
 /* =========================================================
-   Existing API call (same endpoint, same params, same parsing)
+   API call (same endpoint, same parsing; adds hd=1 and a
+   single retry when the service reports a rate limit)
    ========================================================= */
+async function readJson(res) {
+  try { return await res.json(); }
+  catch { return { msg: "The service returned an unreadable response (HTTP " + res.status + ")." }; }
+}
+function isRateLimited(res, json) {
+  return res.status === 429 || (json && typeof json.msg === "string" && /limit|too many|frequen/i.test(json.msg) && !json.data);
+}
 async function fetchVideoData(url) {
-  const res = await fetch(API_BASE + encodeURIComponent(url));
-  const json = await res.json();
+  const endpoint = API_BASE + encodeURIComponent(url) + API_EXTRA;
+  let res = await fetch(endpoint);
+  let json = await readJson(res);
+  if (isRateLimited(res, json)) {
+    await sleep(1400);                       // the service limits request frequency
+    res = await fetch(endpoint);
+    json = await readJson(res);
+  }
   return json;
 }
 
@@ -675,7 +737,7 @@ async function fetchVideoData(url) {
    ========================================================= */
 function validateUrl(raw) {
   const text = (raw || "").trim();
-  if (!text) return { ok: false, msg: "Please paste a TikTok video link." };
+  if (!text) return { ok: false, msg: "Please paste a TikTok link." };
   const found = text.match(/https?:\/\/[^\s]+/i);
   let candidate = found ? found[0] : text;
   if (!/^https?:\/\//i.test(candidate)) candidate = "https://" + candidate;
@@ -697,7 +759,7 @@ const ui = {
   analyzeLabel: $("#analyzeLabel"), root: $("#resultRoot"),
   history: $("#history"), historyList: $("#historyList")
 };
-const state = { busy: false, downloading: false, data: null };
+const state = { busy: false, downloading: false, data: null, sourceUrl: "" };
 
 /* =========================================================
    Input behaviour
@@ -774,10 +836,10 @@ function setBusy(b) {
   state.busy = b;
   ui.analyze.disabled = b;
   ui.paste.disabled = b;
-  ui.analyzeLabel.textContent = b ? "Analyzing…" : "Analyze Video";
+  ui.analyzeLabel.textContent = b ? "Analyzing…" : "Analyze Link";
   const old = $("#analyzeIcon");
-  const repl = b ? el("span", { class: "spinner", id: "analyzeIcon", "aria-hidden": "true" }) : icon("search");
-  if (!b) repl.id = "analyzeIcon"; else repl.id = "analyzeIcon";
+  const repl = b ? el("span", { class: "spinner", "aria-hidden": "true" }) : icon("search");
+  repl.id = "analyzeIcon";
   old.replaceWith(repl);
 }
 function showSkeleton() {
@@ -793,10 +855,10 @@ function showSkeleton() {
         el("div", { class: "stats" }, ...Array.from({ length: 3 }, () => el("div", { class: "skeleton", style: "height:76px;border-radius:16px" })))))
   ));
 }
-function showError(message) {
+function showError(message, extra) {
   ui.root.replaceChildren(el("div", { class: "card error-card", role: "alert" },
     icon("alert"),
-    el("div", {}, el("h3", { text: "Unable to process this link" }), el("p", { text: message }))));
+    el("div", {}, el("h3", { text: "Unable to process this link" }), el("p", { text: message }), extra ? el("p", { text: extra }) : null)));
 }
 function scrollToResults() {
   const t = $("#results");
@@ -816,12 +878,21 @@ async function analyze() {
     const json = await fetchVideoData(v.url);
     if (json && json.data) {
       state.data = json.data;
-      renderResult(json.data);
-      saveHistory(v.url);
-      toast("Video information loaded successfully.", "success");
+      state.sourceUrl = v.url;
+      const ok = renderResult(json.data, v.url);
+      if (ok) {
+        saveHistory(v.url);
+        toast("Information loaded successfully.", "success");
+      } else {
+        toast("No downloadable media was returned.", "error");
+      }
     } else {
       const m = json && typeof json.msg === "string" && json.msg ? json.msg : "";
-      showError("No video was found for this link." + (m ? " Service message: " + m : " Please check the link and try again."));
+      const limited = /limit|too many|frequen/i.test(m);
+      showError(
+        "No media was found for this link." + (m ? " Service message: " + m : " Please check the link and try again."),
+        limited ? "The service limits how often it can be called. Wait a few seconds and try again."
+                : "Private, deleted, expired, or restricted posts (including expired Stories) cannot be retrieved.");
       toast("Unable to process this link. Please try again.", "error");
     }
   } catch (e) {
@@ -833,12 +904,56 @@ async function analyze() {
 }
 
 /* =========================================================
+   Media detection — based only on what the API returned
+   ========================================================= */
+function urlKey(u) {                       // signed CDN links differ only in the query string
+  try { const p = new URL(u); return p.origin + p.pathname; } catch { return u; }
+}
+function isAudioUrl(u) { return /mime_type=audio/i.test(u) || /\.(mp3|m4a)(\?|$)/i.test(u); }
+
+function collectImages(d) {
+  const raw = Array.isArray(d.images) ? d.images : [];
+  const seen = new Set();
+  const out = [];
+  raw.forEach(item => {
+    let u = null;
+    if (typeof item === "string") u = item;
+    else if (item && typeof item === "object") {
+      u = item.url || item.src || (Array.isArray(item.url_list) ? item.url_list[0] : null);
+    }
+    u = safeUrl(u);
+    if (!u) return;
+    const k = urlKey(u);
+    if (seen.has(k)) return;               // never list the same photo twice
+    seen.add(k);
+    out.push({ url: u });
+  });
+  return out;
+}
+function videoUrl(u) {
+  const s = safeUrl(u);
+  return s && !isAudioUrl(s) ? s : null;
+}
+function detectMedia(d, sourceUrl) {
+  const images = collectImages(d);
+  const video = { sd: videoUrl(d.play), hd: videoUrl(d.hdplay), wm: videoUrl(d.wmplay) };
+  const hasVideo = !!(video.sd || video.hd || video.wm);
+  let isStory = false;
+  try { isStory = /\/stories?(\/|$)/i.test(new URL(sourceUrl).pathname); } catch {}
+  let kind = "none";
+  if (images.length && hasVideo) kind = "mixed";
+  else if (images.length) kind = "photo";
+  else if (hasVideo) kind = "video";
+  return { kind, images, video, hasVideo, isStory };
+}
+
+/* =========================================================
    Render result
    ========================================================= */
 function statCard(label, iconName, value, fullValue) {
   return el("div", { class: "stat" },
     el("div", { class: "label" }, icon(iconName), label),
-    el("div", { class: "value", title: fullValue || "" , text: value }));
+    el("div", { class: "value", title: fullValue || "", text: value }));
 }
 
 function renderCreator(d) {
@@ -876,41 +991,30 @@ function renderCreator(d) {
       el("span", { text: "Follower, following, total-likes, video-count, biography and verification details are not returned by this service, so they are not shown." })));
 }
 
-function renderVideoCard(d) {
-  const cover = safeUrl(d.cover) || safeUrl(d.origin_cover);
-  const play = safeUrl(d.play) || safeUrl(d.hdplay) || safeUrl(d.wmplay);
+function renderTypeHead(media) {
+  let cls = "type-pill", ic = "film", label = "Video";
+  if (media.kind === "photo") { cls += " photo"; ic = "images"; label = media.images.length === 1 ? "Photo post · 1 photo" : "Photo post · " + media.images.length + " photos"; }
+  else if (media.kind === "mixed") { cls += " mixed"; ic = "images"; label = "Photo slideshow · " + media.images.length + (media.images.length === 1 ? " photo" : " photos") + " + video"; }
+  const kids = [el("span", { class: cls }, icon(ic), label)];
+  if (media.isStory) kids.push(el("span", { class: "type-pill story" }, icon("clock"), "Story link"));
+  return el("div", { class: "result-head" }, kids);
+}
+
+/* Details column: badges, description, hashtags, statistics */
+function renderInfo(d, media) {
   const title = typeof d.title === "string" ? d.title : "";
   const tags = extractTags(title);
 
-  /* media */
-  const wrap = el("div", { class: "media-wrap" });
-  if (play) {
-    const v = el("video", { controls: true, playsinline: true, preload: "none", "aria-label": "Video preview" });
-    if (cover) v.setAttribute("poster", cover);
-    v.src = play;
-    v.addEventListener("error", () => {
-      if (v.dataset.failed) return;
-      v.dataset.failed = "1";
-      toast("The in-page preview could not be played. You can still try the download.", "info");
-    });
-    wrap.append(v);
-  } else if (cover) {
-    wrap.append(el("img", { src: cover, alt: "Video thumbnail", referrerpolicy: "no-referrer" }));
-  } else {
-    wrap.append(el("div", { class: "media-fallback", text: "No preview available for this video." }));
-  }
-
-  /* badges */
   const badges = el("div", { class: "badge-row" });
-  if (isNum(d.duration)) badges.append(el("span", { class: "badge" }, icon("clock"), fmtDuration(d.duration)));
+  if (media.images.length) badges.append(el("span", { class: "badge" }, icon("images"), media.images.length + (media.images.length === 1 ? " photo" : " photos")));
+  if (isNum(d.duration) && Number(d.duration) > 0 && media.hasVideo) badges.append(el("span", { class: "badge" }, icon("clock"), fmtDuration(d.duration)));
   if (isNum(d.create_time) && Number(d.create_time) > 0) {
     const ds = fmtDate(d.create_time);
     if (ds) badges.append(el("span", { class: "badge" }, icon("calendar"), ds));
   }
   if (d.author && d.author.unique_id) badges.append(el("span", { class: "badge" }, icon("user"), "@" + d.author.unique_id));
 
-  /* description */
-  const descP = el("p", { class: "desc-text" + (title ? "" : " empty"), text: title || "No description provided for this video.", id: "descText" });
+  const descP = el("p", { class: "desc-text" + (title ? "" : " empty"), text: title || "No description provided for this post.", id: "descText" });
   const longDesc = title.length > 180 || title.split("\n").length > 3;
   if (longDesc) descP.classList.add("clamped");
   const toggle = longDesc ? el("button", {
@@ -932,57 +1036,102 @@ function renderVideoCard(d) {
       el("button", { class: "btn btn-sm", type: "button", onclick: () => copyText(tags.join(" "), "Hashtags") }, icon("copy"), "Copy Hashtags")),
     el("div", { class: "tags" }, tags.map(t => el("span", { class: "tag", text: t })))) : null;
 
-  /* stats */
   const stats = el("div", { class: "stats" });
   [["Views", "eye", d.play_count], ["Likes", "heart", d.digg_count], ["Comments", "message", d.comment_count],
    ["Shares", "share", d.share_count], ["Saves", "bookmark", d.collect_count]].forEach(([l, ic, val]) => {
     if (isNum(val)) stats.append(statCard(l, ic, fmtCount(val), nfFull.format(Number(val))));
   });
 
-  return el("section", { class: "card video-grid", "aria-label": "Video details" },
-    wrap,
-    el("div", { style: "min-width:0" },
-      badges, descHead, descP, toggle ? el("div", { style: "margin-top:6px" }, toggle) : null, tagBlock,
-      stats.children.length
-        ? el("div", {}, el("h3", { style: "margin-top:20px" }, "Video statistics"), stats)
-        : el("div", { class: "note", style: "margin-top:16px" }, icon("info"), el("span", { text: "Engagement statistics were not provided for this video." }))));
+  return el("div", { style: "min-width:0" },
+    badges, descHead, descP, toggle ? el("div", { style: "margin-top:6px" }, toggle) : null, tagBlock,
+    stats.children.length
+      ? el("div", {}, el("h3", { style: "margin-top:20px" }, "Statistics"), stats)
+      : el("div", { class: "note", style: "margin-top:16px" }, icon("info"), el("span", { text: "Engagement statistics were not provided for this post." })));
 }
 
-/* ---------- Download options derived from the real API response ---------- */
-function buildOptions(d) {
-  const out = [];
-  const seen = new Set();
-  const add = (id, kind, name, sub, url, size, force) => {
-    const u = safeUrl(url);
-    if (!u || (!force && seen.has(u))) return;   // "force": never hide a real HD link just because it equals another URL
-    seen.add(u);
-    out.push({ id, kind, name, sub, url: u, size: fmtBytes(size) });
-  };
-  add("sd", "video", "Video", "Standard file (play)", d.play, d.size);
-  add("hd", "video", "HD Without Watermark", "High-quality file (hdplay)", d.hdplay, d.hd_size, true);
-  add("wm", "video", "Video with watermark", "Watermarked file (wmplay)", d.wmplay, d.wm_size);
-  add("audio", "audio", "Audio only", "Original sound (music)", d.music, null);
-  return out;
-}
-function extFor(opt) {
-  try {
-    const m = new URL(opt.url).pathname.match(/\.(mp4|mp3|m4a|webm|mov)$/i);
-    if (m) return m[1].toLowerCase();
-  } catch {}
-  return opt.kind === "audio" ? "mp3" : "mp4";
-}
-function buildFilename(opt, d) {
-  const clean = s => String(s || "").replace(/[^\w\-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
-  const parts = ["tiktok", clean(d.author && d.author.unique_id), clean(d.id), opt.id === "hd" ? "hd" : opt.kind === "audio" ? "audio" : ""]
-    .filter(Boolean);
-  return parts.join("-") + "." + extFor(opt);
+/* Video preview card (video posts only) */
+function renderVideoCard(d, media) {
+  const cover = safeUrl(d.cover) || safeUrl(d.origin_cover);
+  const play = media.video.sd || media.video.hd || media.video.wm;
+
+  const wrap = el("div", { class: "media-wrap" });
+  if (play) {
+    const v = el("video", { controls: true, playsinline: true, preload: "none", "aria-label": "Video preview" });
+    if (cover) v.setAttribute("poster", cover);
+    v.src = play;
+    v.addEventListener("error", () => {
+      if (v.dataset.failed) return;
+      v.dataset.failed = "1";
+      toast("The in-page preview could not be played. You can still try the download.", "info");
+    });
+    wrap.append(v);
+  } else if (cover) {
+    wrap.append(el("img", { src: cover, alt: "Video thumbnail", referrerpolicy: "no-referrer" }));
+  } else {
+    wrap.append(el("div", { class: "media-fallback", text: "No preview available." }));
+  }
+  return el("section", { class: "card video-grid", "aria-label": "Video details" }, wrap, renderInfo(d, media));
 }
 
+/* =========================================================
+   Downloading — shared helpers
+   ========================================================= */
+function viaProxy(url, filename) {
+  if (!DOWNLOAD_PROXY_URL) return url;
+  return DOWNLOAD_PROXY_URL + encodeURIComponent(url) + "&filename=" + encodeURIComponent(filename || "");
+}
+function makeProgress() {
+  const p = { wrap: el("div", { class: "dl-progress", hidden: true }), bar: el("div", { class: "dl-bar" }), text: el("span", { class: "dl-text", role: "status" }) };
+  p.wrap.append(el("div", { class: "dl-track" }, p.bar), p.text);
+  return p;
+}
 function setProgress(p, frac, text) {
+  if (!p) return;
   p.wrap.hidden = false;
   if (frac == null) { p.bar.classList.add("indeterminate"); p.bar.style.width = ""; }
   else { p.bar.classList.remove("indeterminate"); p.bar.style.width = Math.round(frac * 100) + "%"; }
   p.text.textContent = text || "";
+}
+function resetBar(p) { if (p) { p.bar.classList.remove("indeterminate"); p.bar.style.width = "0"; } }
+
+const TYPE_RULES = {
+  video: t => /^video\//.test(t) || t.includes("octet-stream"),
+  audio: t => /^audio\//.test(t) || /^video\//.test(t) || t.includes("octet-stream"),
+  image: t => /^image\//.test(t) || t.includes("octet-stream")
+};
+const EXT_BY_TYPE = { "image/jpeg": "jpg", "image/jpg": "jpg", "image/png": "png", "image/webp": "webp", "image/heic": "heic", "image/avif": "avif", "image/gif": "gif",
+  "video/mp4": "mp4", "video/webm": "webm", "video/quicktime": "mov", "audio/mpeg": "mp3", "audio/mp4": "m4a", "audio/x-m4a": "m4a" };
+
+/* Fetch a file into memory (requires the host to allow cross-origin reads) */
+async function fetchBlob(url, expect, p, label) {
+  const res = await fetch(url, { referrerPolicy: "no-referrer" });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const type = (res.headers.get("content-type") || "").toLowerCase().split(";")[0].trim();
+  if (!TYPE_RULES[expect](type)) throw new Error("Unexpected content type: " + type);
+  const total = Number(res.headers.get("content-length")) || 0;
+  let blob;
+  if (res.body && res.body.getReader && p) {
+    const reader = res.body.getReader();
+    const chunks = []; let got = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value); got += value.length;
+      const head = (label || "Receiving file") + "… ";
+      if (total) setProgress(p, Math.min(got / total, 1), head + fmtBytes(got) + " of " + fmtBytes(total));
+      else setProgress(p, null, head + fmtBytes(got));
+    }
+    blob = new Blob(chunks, { type: type || "application/octet-stream" });
+  } else {
+    blob = await res.blob();
+  }
+  if (!blob.size) throw new Error("Empty file");
+  return { blob, type };
+}
+function fixExt(filename, type) {
+  const ext = EXT_BY_TYPE[type];
+  if (!ext) return filename;
+  return filename.replace(/\.[A-Za-z0-9]{2,5}$/, "") + "." + ext;
 }
 function saveBlob(blob, filename) {
   const href = URL.createObjectURL(blob);
@@ -990,10 +1139,58 @@ function saveBlob(blob, filename) {
   document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(href), 60000);
 }
-/* Original behaviour: a plain link with the download attribute pointing at the API URL */
-function plainDownload(opt, filename) {
-  const a = el("a", { href: opt.url, download: filename, target: "_blank", rel: "noopener noreferrer", style: "display:none" });
+/* Original behaviour: a plain link with the download attribute pointing at the media URL */
+function plainDownload(url, filename) {
+  const a = el("a", { href: url, download: filename, target: "_blank", rel: "noopener noreferrer", style: "display:none" });
   document.body.append(a); a.click(); a.remove();
+}
+/* Save one remote file. Returns "saved" (written by the page) or "handoff" (given to the browser) */
+async function saveRemote(url, filename, expect, p, label) {
+  const target = viaProxy(url, filename);
+  try {
+    const { blob, type } = await fetchBlob(target, expect, p, label);
+    saveBlob(blob, fixExt(filename, type));
+    return "saved";
+  } catch (err) {
+    plainDownload(target, filename);
+    return "handoff";
+  }
+}
+
+function cleanName(s) { return String(s || "").replace(/[^\w\-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40); }
+function baseName(d, suffix) {
+  return ["tiktok", cleanName(d.author && d.author.unique_id), cleanName(d.id), suffix].filter(Boolean).join("-");
+}
+function extFor(url, kind) {
+  try {
+    const m = new URL(url).pathname.match(/\.(mp4|mp3|m4a|webm|mov|jpe?g|png|webp|heic|avif|gif)$/i);
+    if (m) return m[1].toLowerCase().replace("jpeg", "jpg");
+  } catch {}
+  return kind === "audio" ? "mp3" : kind === "image" ? "jpg" : "mp4";
+}
+
+/* =========================================================
+   Video / audio download options (real API fields only)
+   ========================================================= */
+function buildOptions(d, media) {
+  const out = [];
+  const seen = new Set();
+  const slide = media && media.images.length > 0;
+  const add = (id, kind, name, sub, url, size, force) => {
+    const u = safeUrl(url);
+    if (!u || (kind === "video" && isAudioUrl(u))) return;
+    if (!force && seen.has(u)) return;
+    seen.add(u);
+    out.push({ id, kind, name, sub, url: u, size: fmtBytes(size) });
+  };
+  add("sd", "video", slide ? "Slideshow video" : "Video", slide ? "Playable video version (play)" : "Standard file (play)", d.play, d.size);
+  add("hd", "video", "HD Without Watermark", "High-quality file (hdplay)", d.hdplay, d.hd_size, true);
+  add("wm", "video", "Video with watermark", "Watermarked file (wmplay)", d.wmplay, d.wm_size);
+  add("audio", "audio", "Audio only", "Original sound (music)", d.music, null);
+  return out;
+}
+function buildFilename(opt, d) {
+  return baseName(d, opt.id === "hd" ? "hd" : opt.kind === "audio" ? "audio" : "") + "." + extFor(opt.url, opt.kind);
 }
 
 async function startDownload(opt, d, c) {
@@ -1007,39 +1204,16 @@ async function startDownload(opt, d, c) {
   setProgress(c.progress, null, "Preparing your download…");
   toast("Preparing your download...", "info");
   const filename = buildFilename(opt, d);
-
   try {
-    const res = await fetch(opt.url);               // may be blocked by CORS → handled below
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const type = (res.headers.get("content-type") || "").toLowerCase();
-    if (!/^(video|audio)\//.test(type) && !type.includes("octet-stream")) throw new Error("Unexpected content type");
-    const total = Number(res.headers.get("content-length")) || 0;
-    let blob;
-    if (res.body && res.body.getReader) {
-      const reader = res.body.getReader();
-      const chunks = []; let got = 0;
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value); got += value.length;
-        if (total) setProgress(c.progress, Math.min(got / total, 1), "Receiving file… " + fmtBytes(got) + " of " + fmtBytes(total));
-        else setProgress(c.progress, null, "Receiving file… " + fmtBytes(got));
-      }
-      blob = new Blob(chunks, { type: type || (opt.kind === "audio" ? "audio/mpeg" : "video/mp4") });
+    const result = await saveRemote(opt.url, filename, opt.kind === "audio" ? "audio" : "video", c.progress, "Receiving file");
+    if (result === "saved") {
+      setProgress(c.progress, 1, "File received. Your browser is now saving it.");
+      toast("Your download has started.", "success");
     } else {
-      blob = await res.blob();
+      setProgress(c.progress, null, "The source doesn't allow in-page saving, so the file link was handed to your browser. If nothing downloads, use “Open direct link”.");
+      resetBar(c.progress);
+      toast("Your download was handed to the browser. Check your downloads or the new tab.", "info", 6000);
     }
-    if (!blob.size) throw new Error("Empty file");
-    saveBlob(blob, filename);
-    setProgress(c.progress, 1, "File received (" + fmtBytes(blob.size) + "). Your browser is now saving it.");
-    toast("Your download has started.", "success");
-  } catch (err) {
-    // Direct fetch not permitted or failed: fall back to the original link-based download (same file, same quality).
-    plainDownload(opt, filename);
-    setProgress(c.progress, null, "The source doesn't allow in-page saving, so the file link was handed to your browser. If nothing downloads, use “Open direct link”.");
-    c.progress.bar.classList.remove("indeterminate");
-    c.progress.bar.style.width = "0";
-    toast("Your download was handed to the browser. Check your downloads or the new tab.", "info", 6000);
   } finally {
     c.label.textContent = prevLabel;
     c.icon.replaceWith((c.icon = icon("download")));
@@ -1049,21 +1223,35 @@ async function startDownload(opt, d, c) {
   }
 }
 
-function renderDownloadPanel(d) {
-  const opts = buildOptions(d);
+function renderDownloadPanel(d, media) {
+  const opts = buildOptions(d, media);
   const cover = safeUrl(d.cover) || safeUrl(d.origin_cover);
   const title = typeof d.title === "string" ? d.title : "";
-  const panel = el("section", { class: "card dl-panel", "aria-label": "Download video" });
-  panel.append(el("h3", { style: "font-size:1.25rem" }, icon("download"), "Download Video"));
+  const photoOnly = media.kind === "photo";
+  const hasVideoOpts = opts.some(o => o.kind === "video");
 
   if (!opts.length) {
-    panel.append(el("div", { class: "note" }, icon("alert"), el("span", { text: "No downloadable file was returned for this video. Try analyzing the link again later." })));
-    return panel;
+    if (photoOnly) return null;           // photos have their own download controls
+    return el("section", { class: "card dl-panel", "aria-label": "Download" },
+      el("h3", { style: "font-size:1.25rem" }, icon("download"), "Download"),
+      el("div", { class: "note" }, icon("alert"), el("span", { text: "No downloadable file was returned for this post. Try analyzing the link again later." })));
+  }
+
+  const panelTitle = media.kind === "mixed" ? "Slideshow video & audio" : photoOnly ? "Audio" : "Download Video";
+  const panel = el("section", { class: "card dl-panel", "aria-label": "Download" });
+  panel.append(el("h3", { style: "font-size:1.25rem" }, icon("download"), panelTitle));
+
+  if (photoOnly) {
+    panel.append(el("div", { class: "note warn", style: "margin-bottom:12px" }, icon("info"),
+      el("span", { text: "No video file was returned for this photo post, so only the original photos (above) and the sound are available." })));
+  } else if (media.kind === "mixed") {
+    panel.append(el("div", { class: "note", style: "margin-bottom:12px" }, icon("info"),
+      el("span", { text: "The service returned a video version of this slideshow in addition to the original photos. Both are available." })));
   }
 
   const summary = el("div", { class: "dl-summary" },
-    cover ? el("img", { class: "dl-thumb", src: cover, alt: "Video thumbnail", referrerpolicy: "no-referrer", loading: "lazy" }) : null,
-    el("p", { class: "dl-title", text: title || "TikTok video" }));
+    cover ? el("img", { class: "dl-thumb", src: cover, alt: "Thumbnail", referrerpolicy: "no-referrer", loading: "lazy" }) : null,
+    el("p", { class: "dl-title", text: title || "TikTok post" }));
 
   let selected = opts[0];
   const hdOpt = opts.find(o => o.id === "hd") || null;
@@ -1075,43 +1263,41 @@ function renderDownloadPanel(d) {
   const direct = el("a", { class: "btn", href: selected.url, target: "_blank", rel: "noopener noreferrer" }, icon("external"), "Open direct link");
   const copyBtn = el("button", { class: "btn", type: "button", onclick: () => copyText(selected.url, "Download link") }, icon("copy"), "Copy link");
 
-  const progress = {
-    wrap: el("div", { class: "dl-progress", hidden: true }),
-    bar: el("div", { class: "dl-bar" }),
-    text: el("span", { class: "dl-text", role: "status" })
-  };
-  progress.wrap.append(el("div", { class: "dl-track" }, progress.bar), progress.text);
+  const progress = makeProgress();
+  const ctx = { btn, label: btnLabel, progress, get icon() { return btnIcon; }, set icon(v) { btnIcon = v; } };
 
-  const ctx = {
-    btn, label: btnLabel, progress,
-    get icon() { return btnIcon; },
-    set icon(v) { btnIcon = v; }
-  };
-
-  /* ---- Dedicated HD Without Watermark button (new) ---- */
-  const hdLabel = el("span", { text: "Download HD (No Watermark)" });
-  let hdIcon = icon("download");
-  const hdBtn = el("button", { class: "btn btn-hd", type: "button" }, hdIcon, hdLabel);
-  const hdMsg = el("p", { class: "hd-msg", role: "status" });
-  const hdCtx = {
-    btn: hdBtn, label: hdLabel, progress,
-    get icon() { return hdIcon; },
-    set icon(v) { hdIcon = v; }
-  };
-  if (!hdOpt) {
-    hdBtn.setAttribute("aria-disabled", "true");
-    hdMsg.textContent = "HD without-watermark video was not provided for this video. No other quality will be downloaded automatically. If you want another file, select it below.";
+  /* Dedicated HD Without Watermark button — only for posts that are videos or have a video version */
+  let hdBtn = null, hdMsg = null;
+  const showHd = media.kind === "video" || (media.kind === "mixed" && hasVideoOpts);
+  if (showHd) {
+    const hdLabel = el("span", { text: "Download HD (No Watermark)" });
+    let hdIcon = icon("download");
+    hdBtn = el("button", { class: "btn btn-hd", type: "button" }, hdIcon, hdLabel);
+    hdMsg = el("p", { class: "hd-msg", role: "status" });
+    const hdCtx = { btn: hdBtn, label: hdLabel, progress, get icon() { return hdIcon; }, set icon(v) { hdIcon = v; } };
+    if (!hdOpt) {
+      hdBtn.setAttribute("aria-disabled", "true");
+      hdMsg.textContent = "The service did not return an HD without-watermark file for this post. No other quality will be downloaded automatically. If you want another file, select it below.";
+    }
+    hdBtn.addEventListener("click", () => {
+      if (!hdOpt) { toast("HD without-watermark video is not available for this post.", "error", 5500); return; }
+      if (state.downloading) return;
+      selected = hdOpt;
+      if (radios.hd) radios.hd.checked = true;
+      applySelection();
+      startDownload(hdOpt, d, hdCtx);
+    });
   }
 
   function applySelection() {
-    btnLabel.textContent = selected.kind === "audio" ? "Download Audio" : "Download Video";
+    btnLabel.textContent = selected.kind === "audio" ? "Download Audio" : (media.kind === "mixed" ? "Download Slideshow Video" : "Download Video");
     direct.href = selected.url;
   }
 
   let lastKind = null;
   opts.forEach((o, i) => {
     if (o.kind !== lastKind) {
-      group.append(el("p", { class: "opt-title", style: i ? "margin-top:10px" : "", text: o.kind === "audio" ? "Audio download" : "Video download" }));
+      group.append(el("p", { class: "opt-title", style: i ? "margin-top:10px" : "", text: o.kind === "audio" ? "Audio download" : (media.kind === "mixed" ? "Slideshow video download" : "Video download") }));
       lastKind = o.kind;
     }
     const input = el("input", { type: "radio", name: "dlopt", value: o.id });
@@ -1125,19 +1311,8 @@ function renderDownloadPanel(d) {
       o.size ? el("span", { class: "o-size", text: o.size }) : null,
       el("span", { class: "o-check" }, icon("check"))));
   });
-
+  applySelection();
   btn.addEventListener("click", () => startDownload(selected, d, ctx));
-  hdBtn.addEventListener("click", () => {
-    if (!hdOpt) {
-      toast("HD without-watermark video is not available for this video.", "error", 5500);
-      return;
-    }
-    if (state.downloading) return;
-    selected = hdOpt;
-    if (radios.hd) radios.hd.checked = true;
-    applySelection();
-    startDownload(hdOpt, d, hdCtx);
-  });
 
   panel.append(el("div", { class: "dl-grid" },
     summary,
@@ -1149,12 +1324,208 @@ function renderDownloadPanel(d) {
   return panel;
 }
 
-function renderResult(d) {
+/* =========================================================
+   Photo gallery, per-photo download, download-all, ZIP
+   ========================================================= */
+const CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; }
+  return t;
+})();
+function crc32(u8) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < u8.length; i++) c = CRC_TABLE[(c ^ u8[i]) & 255] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+/* Minimal "stored" (no compression) ZIP writer — photos are already compressed */
+function makeZip(files) {
+  const enc = new TextEncoder();
+  const body = [], central = [];
+  let offset = 0;
+  const now = new Date();
+  const dosTime = (now.getHours() << 11) | (now.getMinutes() << 5) | (now.getSeconds() >> 1);
+  const dosDate = ((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+  for (const f of files) {
+    const name = enc.encode(f.name), size = f.data.length, crc = crc32(f.data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+    lh.setUint16(10, dosTime, true); lh.setUint16(12, dosDate, true); lh.setUint32(14, crc, true);
+    lh.setUint32(18, size, true); lh.setUint32(22, size, true); lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+    body.push(lh.buffer, name, f.data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true);
+    ch.setUint16(12, dosTime, true); ch.setUint16(14, dosDate, true); ch.setUint32(16, crc, true);
+    ch.setUint32(20, size, true); ch.setUint32(24, size, true); ch.setUint16(28, name.length, true);
+    ch.setUint16(30, 0, true); ch.setUint16(32, 0, true); ch.setUint16(34, 0, true); ch.setUint16(36, 0, true);
+    ch.setUint32(38, 0, true); ch.setUint32(42, offset, true);
+    central.push(ch.buffer, name);
+    offset += 30 + name.length + size;
+  }
+  const cdSize = central.reduce((n, b) => n + b.byteLength, 0);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(4, 0, true); end.setUint16(6, 0, true);
+  end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+  end.setUint32(12, cdSize, true); end.setUint32(16, offset, true); end.setUint16(20, 0, true);
+  return new Blob([...body, ...central, end.buffer], { type: "application/zip" });
+}
+
+function photoFilename(d, i, total, url) {
+  const pad = String(i + 1).padStart(String(total).length < 2 ? 2 : String(total).length, "0");
+  return baseName(d, "photo-" + pad) + "." + extFor(url, "image");
+}
+
+async function downloadOnePhoto(img, i, d, media, p, btn, labelEl) {
+  if (state.downloading) { toast("Another download is in progress. Please wait.", "info"); return; }
+  state.downloading = true;
+  btn.disabled = true;
+  const prev = labelEl.textContent;
+  labelEl.textContent = "Saving…";
+  setProgress(p, null, "Preparing photo " + (i + 1) + "…");
+  try {
+    const name = photoFilename(d, i, media.images.length, img.url);
+    const r = await saveRemote(img.url, name, "image", p, "Receiving photo " + (i + 1));
+    if (r === "saved") { setProgress(p, 1, "Photo " + (i + 1) + " received. Your browser is now saving it."); toast("Photo " + (i + 1) + " download started.", "success"); }
+    else { setProgress(p, null, "The source doesn't allow in-page saving, so photo " + (i + 1) + " was handed to your browser (it may open in a new tab — save it from there)."); resetBar(p); toast("Photo handed to the browser.", "info", 5000); }
+  } finally {
+    labelEl.textContent = prev;
+    btn.disabled = false;
+    state.downloading = false;
+  }
+}
+
+async function downloadAllPhotos(d, media, p, btn, labelEl) {
+  if (state.downloading) { toast("Another download is in progress. Please wait.", "info"); return; }
+  state.downloading = true;
+  btn.disabled = true;
+  const prev = labelEl.textContent;
+  labelEl.textContent = "Downloading…";
+  const total = media.images.length;
+  let saved = 0, handed = 0;
+  try {
+    for (let i = 0; i < total; i++) {
+      setProgress(p, i / total, "Photo " + (i + 1) + " of " + total + "…");
+      const name = photoFilename(d, i, total, media.images[i].url);
+      const r = await saveRemote(media.images[i].url, name, "image", null);
+      if (r === "saved") saved++; else handed++;
+      await sleep(450);                      // spacing helps browsers allow multiple downloads
+    }
+    setProgress(p, 1, saved + " of " + total + " photos saved by the page" + (handed ? "; " + handed + " handed to the browser (check new tabs)." : "."));
+    toast(handed ? "Some photos were handed to the browser." : "All photos downloaded.", handed ? "info" : "success", 5000);
+    if (handed) toast("If your browser blocked extra tabs, allow pop-ups for this page or use the per-photo buttons.", "info", 7000);
+  } finally {
+    labelEl.textContent = prev;
+    btn.disabled = false;
+    state.downloading = false;
+  }
+}
+
+async function downloadZip(d, media, p, btn, labelEl) {
+  if (state.downloading) { toast("Another download is in progress. Please wait.", "info"); return; }
+  state.downloading = true;
+  btn.disabled = true;
+  const prev = labelEl.textContent;
+  labelEl.textContent = "Building ZIP…";
+  const total = media.images.length;
+  const files = new Array(total).fill(null);
+  let done = 0, failed = 0, next = 0;
+  setProgress(p, 0, "Fetching photos for the ZIP…");
+  async function worker() {
+    while (next < total) {
+      const i = next++;
+      try {
+        const name0 = photoFilename(d, i, total, media.images[i].url);
+        const { blob, type } = await fetchBlob(viaProxy(media.images[i].url, name0), "image", null);
+        const data = new Uint8Array(await blob.arrayBuffer());
+        files[i] = { name: fixExt(name0, type).replace(/^.*?-photo-/, "photo-"), data };
+      } catch { failed++; }
+      done++;
+      setProgress(p, done / total, "Fetched " + done + " of " + total + " photos…");
+    }
+  }
+  try {
+    await Promise.all(Array.from({ length: Math.min(3, total) }, worker));
+    const ok = files.filter(Boolean);
+    if (!ok.length) {
+      setProgress(p, null, "The photo host does not allow the page to read these files, so a ZIP cannot be built here. Use the per-photo buttons, or configure DOWNLOAD_PROXY_URL (see FAQ).");
+      resetBar(p);
+      toast("ZIP could not be created: the photo host blocked direct access.", "error", 7000);
+      return;
+    }
+    const zip = makeZip(ok);
+    saveBlob(zip, baseName(d, "photos") + ".zip");
+    setProgress(p, 1, "ZIP created with " + ok.length + " of " + total + " photos (" + fmtBytes(zip.size) + ")." + (failed ? " " + failed + " photo(s) could not be fetched and are not included." : ""));
+    toast(failed ? "ZIP created, but " + failed + " photo(s) were missing." : "ZIP download started.", failed ? "info" : "success", 5500);
+  } catch (e) {
+    setProgress(p, null, "The ZIP could not be created. Try the per-photo buttons instead.");
+    resetBar(p);
+    toast("The ZIP could not be created.", "error");
+  } finally {
+    labelEl.textContent = prev;
+    btn.disabled = false;
+    state.downloading = false;
+  }
+}
+
+function renderGallery(d, media) {
+  const imgs = media.images;
+  const p = makeProgress();
+  const multi = imgs.length > 1;
+
+  const gallery = el("div", { class: "gallery" + (multi ? "" : " single") });
+  imgs.forEach((img, i) => {
+    const frame = el("div", { class: "photo-frame" });
+    const im = el("img", { src: img.url, alt: "Photo " + (i + 1) + " of " + imgs.length, referrerpolicy: "no-referrer", loading: "lazy" });
+    im.addEventListener("error", () => im.replaceWith(el("div", { class: "media-fallback", text: "Preview unavailable. You can still try the download." })));
+    frame.append(im, el("span", { class: "photo-idx", text: (i + 1) + " / " + imgs.length }));
+    const lbl = el("span", { text: "Download" });
+    const dl = el("button", { class: "btn btn-sm", type: "button", "aria-label": "Download photo " + (i + 1) }, icon("download"), lbl);
+    dl.addEventListener("click", () => downloadOnePhoto(img, i, d, media, p, dl, lbl));
+    const open = el("a", { class: "btn btn-sm btn-open", href: img.url, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open photo " + (i + 1) + " in a new tab", title: "Open in new tab" }, icon("external"));
+    gallery.append(el("figure", { class: "photo", style: "margin:0" }, frame, el("div", { class: "photo-actions" }, dl, open)));
+  });
+
+  const tools = el("div", { class: "gallery-tools" });
+  if (multi) {
+    const allLbl = el("span", { text: "Download All Photos" });
+    const allBtn = el("button", { class: "btn btn-primary btn-sm", type: "button" }, icon("images"), allLbl);
+    allBtn.addEventListener("click", () => downloadAllPhotos(d, media, p, allBtn, allLbl));
+    const zipLbl = el("span", { text: "Download ZIP" });
+    const zipBtn = el("button", { class: "btn btn-sm", type: "button" }, icon("archive"), zipLbl);
+    zipBtn.addEventListener("click", () => downloadZip(d, media, p, zipBtn, zipLbl));
+    tools.append(allBtn, zipBtn);
+  }
+
+  return el("section", { class: "card gallery-card", "aria-label": "Photo gallery" },
+    el("div", { class: "gallery-head" },
+      el("h3", {}, icon("images"), imgs.length === 1 ? "Photo" : "Photos (" + imgs.length + ")"),
+      tools),
+    gallery,
+    p.wrap,
+    el("p", { class: "hint", text: "Photos are offered exactly as returned by the service; the original resolution is not reported, so none is claimed. Duplicate image links are removed." }));
+}
+
+function renderResult(d, sourceUrl) {
+  const media = detectMedia(d, sourceUrl);
+  if (media.kind === "none") {
+    showError("The service returned information for this link but no downloadable photo or video.",
+      media.isStory ? "Story content may be expired, private, or unsupported by the service." : "The post may be private, removed, or restricted.");
+    return false;
+  }
   const stack = el("div", { class: "results-stack" });
+  stack.append(renderTypeHead(media));
   const creator = renderCreator(d);
   if (creator) stack.append(creator);
-  stack.append(renderVideoCard(d), renderDownloadPanel(d));
+
+  if (media.kind === "video") {
+    stack.append(renderVideoCard(d, media));
+  } else {
+    stack.append(renderGallery(d, media));
+    stack.append(el("section", { class: "card", "aria-label": "Post details" }, renderInfo(d, media)));
+  }
+  const panel = renderDownloadPanel(d, media);
+  if (panel) stack.append(panel);
   ui.root.replaceChildren(stack);
+  return true;
 }
 
 /* =========================================================
@@ -1302,4 +1673,4 @@ syncClear();
 initTrending();
 </script>
 </body>
-  </html>
+</html>
